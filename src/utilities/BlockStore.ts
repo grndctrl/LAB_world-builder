@@ -1,13 +1,13 @@
 import * as THREE from 'three';
-import createHook, { State, StateCreator } from 'zustand';
+import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import create from 'zustand/vanilla';
+import type { StateCreator } from 'zustand/vanilla';
 
 import { ClusterRef, ClustersType, ClusterType, Material } from '@components/Cluster';
 import { GroundPlaneRef } from '@components/GroundPlane';
 import { indexFromLocalPosition, parseImportedClusters } from '@utilities/BlockUtilities';
 
-interface BlockStore extends State {
+interface BlockStore {
   blocksPerClusterAxis: number;
 
   blockSize: number;
@@ -38,7 +38,11 @@ interface BlockStore extends State {
 
   removeBlock: (type: Material, clusterIndex: number, localPosition: THREE.Vector3) => void;
 
-  addClusterWithBlock: (type: Material, worldPosition: THREE.Vector3, localPosition: THREE.Vector3) => void;
+  addClusterWithBlock: (
+    type: Material,
+    worldPosition: THREE.Vector3,
+    localPosition: THREE.Vector3
+  ) => void;
 
   //
 
@@ -56,9 +60,9 @@ interface BlockStore extends State {
 const blocksPerClusterAxis = 4;
 const blockSize = 4;
 const clusterSize = blocksPerClusterAxis * blockSize;
-const initialBlocks = Array.from({ length: blocksPerClusterAxis * blocksPerClusterAxis * blocksPerClusterAxis }).map(
-  (block) => true
-);
+const initialBlocks = Array.from({
+  length: blocksPerClusterAxis * blocksPerClusterAxis * blocksPerClusterAxis,
+}).map((block) => true);
 
 const state: StateCreator<BlockStore> = (set, get) => ({
   blocksPerClusterAxis: blocksPerClusterAxis,
@@ -177,9 +181,9 @@ const state: StateCreator<BlockStore> = (set, get) => ({
     const allClusters = get().getAllClusters();
     const clusterIndex = allClusters.length;
 
-    const blocks = Array.from({ length: blocksPerClusterAxis * blocksPerClusterAxis * blocksPerClusterAxis }).map(
-      (block) => false
-    );
+    const blocks = Array.from({
+      length: blocksPerClusterAxis * blocksPerClusterAxis * blocksPerClusterAxis,
+    }).map((block) => false);
     const index = indexFromLocalPosition(localPosition);
     blocks[index] = true;
 
@@ -224,9 +228,12 @@ const state: StateCreator<BlockStore> = (set, get) => ({
   },
 });
 
-const blockStore =
-  process.env.NODE_ENV === 'development' ? create<BlockStore>(devtools(state, 'Block Store')) : create(state);
+const useBlockStore = create<BlockStore>()(
+  devtools(state, { name: 'Block Store', enabled: process.env.NODE_ENV === 'development' })
+);
 
-const useBlockStore = createHook(blockStore);
+// The hook returned by `create` is also the vanilla store API, so non-React
+// callers can keep using `blockStore.getState()`.
+const blockStore = useBlockStore;
 
 export { blockStore, useBlockStore };

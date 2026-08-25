@@ -27,10 +27,20 @@ function segmentShape(size: number, segments: number): THREE.Shape {
   return shape;
 }
 
-function generateBrick(location: THREE.Vector3, size: number, side: THREE.Vector3): THREE.BufferGeometry {
+function generateBrick(
+  location: THREE.Vector3,
+  size: number,
+  side: THREE.Vector3
+): THREE.BufferGeometry {
   const shape = segmentShape(size, 4);
-  const curve = new THREE.LineCurve3(location, location.clone().add(side.clone().multiplyScalar(size * 0.25)));
-  const geometry = new THREE.ExtrudeBufferGeometry(shape, { bevelEnabled: false, extrudePath: curve });
+  const curve = new THREE.LineCurve3(
+    location,
+    location.clone().add(side.clone().multiplyScalar(size * 0.25))
+  );
+  const geometry = new THREE.ExtrudeGeometry(shape, {
+    bevelEnabled: false,
+    extrudePath: curve,
+  });
 
   const { position } = geometry.attributes;
   const colors: number[] = [];
@@ -132,7 +142,12 @@ const Example = () => {
     block = smooth(block);
     block = edgeSplit(block, Math.PI / 6);
 
-    let bricks = generateBricks(block, blockSize, new THREE.Vector3(1, 0, 0), new THREE.Vector3(1, 1, 1));
+    let bricks = generateBricks(
+      block,
+      blockSize,
+      new THREE.Vector3(1, 0, 0),
+      new THREE.Vector3(1, 1, 1)
+    );
 
     const merge = mergeBufferGeometries([bricks, block]);
     block = merge ? merge : bricks;

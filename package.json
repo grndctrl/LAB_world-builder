@@ -6,31 +6,33 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "oxlint",
+    "format": "oxfmt",
+    "format:check": "oxfmt --check",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@react-three/drei": "^7.16.6",
-    "@react-three/fiber": "^7.0.16",
-    "@react-three/postprocessing": "^2.0.5",
-    "@types/lodash": "^4.14.175",
-    "classnames": "^2.3.1",
+    "@react-three/drei": "^10.7.8",
+    "@react-three/fiber": "^9.7.0",
+    "@types/lodash": "^4.17.25",
+    "classnames": "^2.5.1",
     "component-material": "^1.0.7",
-    "lodash": "^4.17.21",
-    "next": "11.1.2",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
-    "simplex-noise": "^3.0.0",
-    "tailwindcss": "^2.2.17",
-    "three": "^0.133.1",
-    "three-stdlib": "^2.5.4",
-    "zustand": "^3.5.13"
+    "lodash": "^4.18.1",
+    "next": "16.3.2",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "simplex-noise": "^4.0.3",
+    "tailwindcss": "^4.3.3",
+    "three": "^0.185.1",
+    "three-stdlib": "^2.36.1",
+    "zustand": "^5.0.15"
   },
   "devDependencies": {
-    "@types/react": "17.0.30",
-    "@types/three": "^0.133.1",
-    "autoprefixer": "^10.3.7",
-    "eslint": "7.32.0",
-    "eslint-config-next": "11.1.2",
-    "typescript": "4.4.4"
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/react": "19.2.18",
+    "@types/three": "^0.185.4",
+    "oxfmt": "^0.64.0",
+    "oxlint": "^1.79.0",
+    "typescript": "^6"
   }
 }

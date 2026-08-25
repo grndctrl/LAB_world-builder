@@ -19,7 +19,7 @@ function generateBlockSide(
   side: THREE.Vector3,
   color: THREE.Color = new THREE.Color('#fff')
 ): THREE.BufferGeometry {
-  const plane = new THREE.PlaneBufferGeometry(blockSize, blockSize, segments, segments);
+  const plane = new THREE.PlaneGeometry(blockSize, blockSize, segments, segments);
   const { position } = plane.attributes;
   const colors: number[] = [];
 
@@ -64,7 +64,7 @@ function generateBlockSideHalf(
     height *= 0.5;
   }
 
-  const plane = new THREE.PlaneBufferGeometry(width, height, segments, segments);
+  const plane = new THREE.PlaneGeometry(width, height, segments, segments);
   const { position } = plane.attributes;
   const colors: number[] = [];
 
@@ -127,19 +127,28 @@ function generateBlockSides(
 
   // -Y axis
   if (!neighbours[6]) {
-    const plane = new THREE.PlaneBufferGeometry(blockSize, blockSize, 4, 4);
+    const plane = new THREE.PlaneGeometry(blockSize, blockSize, 4, 4);
     const segment = blockSize / 4;
     const { position } = plane.attributes;
     const colors: number[] = [];
 
     const innerIndices = [
-      ...GeometryUtilities.positionIndicesAtPosition(plane, new THREE.Vector3(-segment, -segment, 0)),
+      ...GeometryUtilities.positionIndicesAtPosition(
+        plane,
+        new THREE.Vector3(-segment, -segment, 0)
+      ),
       ...GeometryUtilities.positionIndicesAtPosition(plane, new THREE.Vector3(0, -segment, 0)),
-      ...GeometryUtilities.positionIndicesAtPosition(plane, new THREE.Vector3(segment, -segment, 0)),
+      ...GeometryUtilities.positionIndicesAtPosition(
+        plane,
+        new THREE.Vector3(segment, -segment, 0)
+      ),
       ...GeometryUtilities.positionIndicesAtPosition(plane, new THREE.Vector3(-segment, 0, 0)),
       ...GeometryUtilities.positionIndicesAtPosition(plane, new THREE.Vector3(0, 0, 0)),
       ...GeometryUtilities.positionIndicesAtPosition(plane, new THREE.Vector3(segment, 0, 0)),
-      ...GeometryUtilities.positionIndicesAtPosition(plane, new THREE.Vector3(-segment, segment, 0)),
+      ...GeometryUtilities.positionIndicesAtPosition(
+        plane,
+        new THREE.Vector3(-segment, segment, 0)
+      ),
       ...GeometryUtilities.positionIndicesAtPosition(plane, new THREE.Vector3(0, segment, 0)),
       ...GeometryUtilities.positionIndicesAtPosition(plane, new THREE.Vector3(segment, segment, 0)),
     ];
@@ -147,7 +156,12 @@ function generateBlockSides(
     innerIndices.forEach((index) => {
       const { position } = plane.attributes;
 
-      position.setXYZ(index, position.getX(index) * 0.5, position.getY(index) * 0.5, position.getZ(index) * 0.5);
+      position.setXYZ(
+        index,
+        position.getX(index) * 0.5,
+        position.getY(index) * 0.5,
+        position.getZ(index) * 0.5
+      );
     });
 
     plane.rotateX(Math.PI * 0.5);
@@ -163,19 +177,28 @@ function generateBlockSides(
 
   // +Y axis
   if (!neighbours[11]) {
-    const plane = new THREE.PlaneBufferGeometry(blockSize, blockSize, 4, 4);
+    const plane = new THREE.PlaneGeometry(blockSize, blockSize, 4, 4);
     const segment = blockSize / 4;
     const { position } = plane.attributes;
     const colors: number[] = [];
 
     const innerIndices = [
-      ...GeometryUtilities.positionIndicesAtPosition(plane, new THREE.Vector3(-segment, -segment, 0)),
+      ...GeometryUtilities.positionIndicesAtPosition(
+        plane,
+        new THREE.Vector3(-segment, -segment, 0)
+      ),
       ...GeometryUtilities.positionIndicesAtPosition(plane, new THREE.Vector3(0, -segment, 0)),
-      ...GeometryUtilities.positionIndicesAtPosition(plane, new THREE.Vector3(segment, -segment, 0)),
+      ...GeometryUtilities.positionIndicesAtPosition(
+        plane,
+        new THREE.Vector3(segment, -segment, 0)
+      ),
       ...GeometryUtilities.positionIndicesAtPosition(plane, new THREE.Vector3(-segment, 0, 0)),
       ...GeometryUtilities.positionIndicesAtPosition(plane, new THREE.Vector3(0, 0, 0)),
       ...GeometryUtilities.positionIndicesAtPosition(plane, new THREE.Vector3(segment, 0, 0)),
-      ...GeometryUtilities.positionIndicesAtPosition(plane, new THREE.Vector3(-segment, segment, 0)),
+      ...GeometryUtilities.positionIndicesAtPosition(
+        plane,
+        new THREE.Vector3(-segment, segment, 0)
+      ),
       ...GeometryUtilities.positionIndicesAtPosition(plane, new THREE.Vector3(0, segment, 0)),
       ...GeometryUtilities.positionIndicesAtPosition(plane, new THREE.Vector3(segment, segment, 0)),
     ];
@@ -183,7 +206,12 @@ function generateBlockSides(
     innerIndices.forEach((index) => {
       const { position } = plane.attributes;
 
-      position.setXYZ(index, position.getX(index) * 0.5, position.getY(index) * 0.5, position.getZ(index) * 0.5);
+      position.setXYZ(
+        index,
+        position.getX(index) * 0.5,
+        position.getY(index) * 0.5,
+        position.getZ(index) * 0.5
+      );
     });
 
     plane.rotateX(Math.PI * -0.5);

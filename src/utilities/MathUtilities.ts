@@ -105,7 +105,11 @@ function roundedVector3(point: THREE.Vector3, precision: number): THREE.Vector3 
  * @param {boolean} [isNegative=false]
  * @return {*}  {THREE.Vector3[]}
  */
-function sliceTriangle(triangle: THREE.Triangle, plane: THREE.Plane, isNegative = false): THREE.Vector3[] {
+function sliceTriangle(
+  triangle: THREE.Triangle,
+  plane: THREE.Plane,
+  isNegative = false
+): THREE.Vector3[] {
   const slicedPoints: THREE.Vector3[] = [];
   const points = [triangle.a.clone(), triangle.b.clone(), triangle.c.clone()];
 

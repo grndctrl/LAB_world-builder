@@ -1,4 +1,4 @@
-import { memo, useEffect, useRef } from 'react';
+import { createElement, memo, useEffect, useRef } from 'react';
 import * as THREE from 'three';
 
 import { useFrame } from '@react-three/fiber';
@@ -45,7 +45,8 @@ const Cluster = ({ cluster, geometry, material }: ClusterProps) => {
   for (let z = 0; z < blocksPerClusterAxis; z++) {
     for (let y = 0; y < blocksPerClusterAxis; y++) {
       for (let x = 0; x < blocksPerClusterAxis; x++) {
-        const index = x + y * blocksPerClusterAxis + z * blocksPerClusterAxis * blocksPerClusterAxis;
+        const index =
+          x + y * blocksPerClusterAxis + z * blocksPerClusterAxis * blocksPerClusterAxis;
         if (cluster.blocks[index]) {
           const position = new THREE.Vector3(x, y, z);
 
@@ -94,6 +95,11 @@ const Cluster = ({ cluster, geometry, material }: ClusterProps) => {
 
       if (blockCollidersRef.current) {
         blockCollidersRef.current.instanceMatrix.needsUpdate = true;
+        // three.js lazily computes and caches InstancedMesh.boundingSphere on first
+        // raycast; if that happens before instances are positioned (all identity
+        // matrices at construction) the cached sphere never grows back to fit the
+        // real instances, so raycasts miss almost everywhere. Recompute it here.
+        blockCollidersRef.current.computeBoundingSphere();
       }
 
       isInitializing = false;
@@ -104,7 +110,7 @@ const Cluster = ({ cluster, geometry, material }: ClusterProps) => {
     <group>
       <axesHelper />
       <mesh castShadow receiveShadow ref={meshRef} position={cluster.origin} geometry={geometry}>
-        {material({})}
+        {createElement(material)}
       </mesh>
       <mesh
         visible={false}
@@ -117,7 +123,7 @@ const Cluster = ({ cluster, geometry, material }: ClusterProps) => {
         name="clusterCollider"
         ref={clusterColliderRef}
         position={cluster.origin}
-        geometry={new THREE.BoxBufferGeometry(clusterSize, clusterSize, clusterSize)}
+        geometry={new THREE.BoxGeometry(clusterSize, clusterSize, clusterSize)}
       >
         <meshBasicMaterial color={'#4488ff'} wireframe={true} />
       </mesh>
@@ -125,7 +131,11 @@ const Cluster = ({ cluster, geometry, material }: ClusterProps) => {
         visible={false}
         name="blockColliders"
         ref={blockCollidersRef}
-        args={[new THREE.BoxBufferGeometry(blockSize, blockSize, blockSize), undefined, instances.length]}
+        args={[
+          new THREE.BoxGeometry(blockSize, blockSize, blockSize),
+          undefined,
+          instances.length,
+        ]}
       >
         <meshBasicMaterial color={'#44ff88'} wireframe={true} />
       </instancedMesh>
@@ -133,7 +143,11 @@ const Cluster = ({ cluster, geometry, material }: ClusterProps) => {
         castShadow
         name="blockShadows"
         args={[
-          new THREE.BoxBufferGeometry(blockSize - 0.1 * blockSize, blockSize, blockSize - 0.1 * blockSize),
+          new THREE.BoxGeometry(
+            blockSize - 0.1 * blockSize,
+            blockSize,
+            blockSize - 0.1 * blockSize
+          ),
           undefined,
           instances.length,
         ]}

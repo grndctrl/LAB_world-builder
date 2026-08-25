@@ -1,11 +1,11 @@
 import * as THREE from 'three';
-import createHook, { State, StateCreator } from 'zustand';
+import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import create from 'zustand/vanilla';
+import type { StateCreator } from 'zustand/vanilla';
 
 import { ClusterRef, ClusterType, Material } from '@components/Cluster';
 
-interface InterfaceStore extends State {
+interface InterfaceStore {
   isPointerDown: boolean;
 
   pointerDownStart: THREE.Vector2;
@@ -77,9 +77,12 @@ const state: StateCreator<InterfaceStore> = (set, get) => ({
   setMaterial: (material) => set(() => ({ currentMaterial: material })),
 });
 
-const interfaceStore =
-  process.env.NODE_ENV === 'development' ? create(devtools(state, 'Interface Store')) : create(state);
+const useInterfaceStore = create<InterfaceStore>()(
+  devtools(state, { name: 'Interface Store', enabled: process.env.NODE_ENV === 'development' })
+);
 
-const useInterfaceStore = createHook(interfaceStore);
+// The hook returned by `create` is also the vanilla store API, so non-React
+// callers can keep using `interfaceStore.getState()`.
+const interfaceStore = useInterfaceStore;
 
 export { interfaceStore, useInterfaceStore };

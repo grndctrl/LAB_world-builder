@@ -72,7 +72,11 @@ function sideFaces(area: Area, currZ: number, nextZ: number): THREE.Triangle[] {
 
 function splitPercentage(position: THREE.Vector3, deviation: number, offset: number): number {
   const simplex = new SimplexNoise();
-  const random = simplex.random3(position.x + deviation, position.y + deviation, position.z + deviation);
+  const random = simplex.random3(
+    position.x + deviation,
+    position.y + deviation,
+    position.z + deviation
+  );
   return random * offset + (1 - offset) * 0.5;
 }
 

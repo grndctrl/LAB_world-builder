@@ -9,7 +9,11 @@ import * as MathUtilities from '@utilities/MathUtilities';
  * @param {boolean} [isNegative=false]
  * @return {*}  {THREE.BufferGeometry}
  */
-function bisect(geometry: THREE.BufferGeometry, plane: THREE.Plane, isNegative = false): THREE.BufferGeometry {
+function bisect(
+  geometry: THREE.BufferGeometry,
+  plane: THREE.Plane,
+  isNegative = false
+): THREE.BufferGeometry {
   const utilityGeometry = geometry.clone();
 
   if (isNegative) {
@@ -36,7 +40,11 @@ function bisect(geometry: THREE.BufferGeometry, plane: THREE.Plane, isNegative =
     const lineBC = new THREE.Line3(face.b, face.c);
     const lineCA = new THREE.Line3(face.c, face.a);
 
-    if (plane.intersectsLine(lineAB) || plane.intersectsLine(lineBC) || plane.intersectsLine(lineCA)) {
+    if (
+      plane.intersectsLine(lineAB) ||
+      plane.intersectsLine(lineBC) ||
+      plane.intersectsLine(lineCA)
+    ) {
       intersectedFaces.push(face);
       return;
     }
@@ -54,8 +62,14 @@ function bisect(geometry: THREE.BufferGeometry, plane: THREE.Plane, isNegative =
       for (let i = 0; i < 3; i++) {
         if (vertices[i].equals(slicedVertices[0])) {
           const intersections = [
-            plane.intersectLine(new THREE.Line3(vertices[i], vertices[(i + 1) % 3]), new THREE.Vector3()),
-            plane.intersectLine(new THREE.Line3(vertices[(i + 2) % 3], vertices[i]), new THREE.Vector3()),
+            plane.intersectLine(
+              new THREE.Line3(vertices[i], vertices[(i + 1) % 3]),
+              new THREE.Vector3()
+            ),
+            plane.intersectLine(
+              new THREE.Line3(vertices[(i + 2) % 3], vertices[i]),
+              new THREE.Vector3()
+            ),
           ];
 
           if (intersections[0] && intersections[1]) {
@@ -66,9 +80,13 @@ function bisect(geometry: THREE.BufferGeometry, plane: THREE.Plane, isNegative =
               !vertices[(i + 2) % 3].equals(intersections[1]) &&
               !vertices[(i + 2) % 3].equals(vertices[(i + 1) % 3])
             ) {
-              adjustedFaces.push(new THREE.Triangle(intersections[0], vertices[(i + 1) % 3], intersections[1]));
+              adjustedFaces.push(
+                new THREE.Triangle(intersections[0], vertices[(i + 1) % 3], intersections[1])
+              );
 
-              adjustedFaces.push(new THREE.Triangle(intersections[1], vertices[(i + 1) % 3], vertices[(i + 2) % 3]));
+              adjustedFaces.push(
+                new THREE.Triangle(intersections[1], vertices[(i + 1) % 3], vertices[(i + 2) % 3])
+              );
             }
           }
         }
@@ -83,8 +101,14 @@ function bisect(geometry: THREE.BufferGeometry, plane: THREE.Plane, isNegative =
         for (let i = 0; i < 3; i++) {
           if (vertices[i].equals(slicedVertices[0])) {
             const intersections = [
-              plane.intersectLine(new THREE.Line3(vertices[i], vertices[(i + 1) % 3]), new THREE.Vector3()),
-              plane.intersectLine(new THREE.Line3(vertices[(i + 2) % 3], vertices[i]), new THREE.Vector3()),
+              plane.intersectLine(
+                new THREE.Line3(vertices[i], vertices[(i + 1) % 3]),
+                new THREE.Vector3()
+              ),
+              plane.intersectLine(
+                new THREE.Line3(vertices[(i + 2) % 3], vertices[i]),
+                new THREE.Vector3()
+              ),
             ];
 
             if (intersections[0] && intersections[1]) {
@@ -93,7 +117,9 @@ function bisect(geometry: THREE.BufferGeometry, plane: THREE.Plane, isNegative =
                 !vertices[i].equals(intersections[0]) &&
                 !vertices[i].equals(intersections[1])
               ) {
-                adjustedFaces.push(new THREE.Triangle(vertices[i], intersections[0], intersections[1]));
+                adjustedFaces.push(
+                  new THREE.Triangle(vertices[i], intersections[0], intersections[1])
+                );
               }
             }
           }
@@ -104,8 +130,14 @@ function bisect(geometry: THREE.BufferGeometry, plane: THREE.Plane, isNegative =
         for (let i = 0; i < 3; i++) {
           if (!vertices[i].equals(slicedVertices[0]) && !vertices[i].equals(slicedVertices[1])) {
             const intersections = [
-              plane.intersectLine(new THREE.Line3(vertices[i], vertices[(i + 1) % 3]), new THREE.Vector3()),
-              plane.intersectLine(new THREE.Line3(vertices[(i + 2) % 3], vertices[i]), new THREE.Vector3()),
+              plane.intersectLine(
+                new THREE.Line3(vertices[i], vertices[(i + 1) % 3]),
+                new THREE.Vector3()
+              ),
+              plane.intersectLine(
+                new THREE.Line3(vertices[(i + 2) % 3], vertices[i]),
+                new THREE.Vector3()
+              ),
             ];
 
             if (intersections[0] && intersections[1]) {
@@ -114,7 +146,9 @@ function bisect(geometry: THREE.BufferGeometry, plane: THREE.Plane, isNegative =
                 !vertices[i].equals(intersections[0]) &&
                 !vertices[i].equals(intersections[1])
               ) {
-                adjustedFaces.push(new THREE.Triangle(vertices[i], intersections[0], intersections[1]));
+                adjustedFaces.push(
+                  new THREE.Triangle(vertices[i], intersections[0], intersections[1])
+                );
               }
             }
           }
@@ -177,7 +211,10 @@ function positionIndicesOnSideAtY(
  * @param {THREE.Vector3} position
  * @return {*}  {number[]}
  */
-function positionIndicesAtPosition(geometry: THREE.BufferGeometry, position: THREE.Vector3): number[] {
+function positionIndicesAtPosition(
+  geometry: THREE.BufferGeometry,
+  position: THREE.Vector3
+): number[] {
   const indices: number[] = [];
   const positionAttribute = geometry.attributes.position;
 
@@ -264,7 +301,11 @@ function intersectPlane(geometry: THREE.BufferGeometry, plane: THREE.Plane): THR
   const faces = facesFromGeometry(utilityGeometry);
 
   faces.forEach((face) => {
-    const lines = [new THREE.Line3(face.a, face.b), new THREE.Line3(face.b, face.c), new THREE.Line3(face.c, face.a)];
+    const lines = [
+      new THREE.Line3(face.a, face.b),
+      new THREE.Line3(face.b, face.c),
+      new THREE.Line3(face.c, face.a),
+    ];
 
     lines.forEach((line) => {
       const intersection = plane.intersectLine(line, new THREE.Vector3());
@@ -287,7 +328,11 @@ function intersectPlane(geometry: THREE.BufferGeometry, plane: THREE.Plane): THR
  * @param {THREE.Vector3} normal
  * @return {*}  {THREE.BufferGeometry}
  */
-function stitchVertices(vertices: THREE.Vector3[], normal: THREE.Vector3, isNegative = false): THREE.BufferGeometry {
+function stitchVertices(
+  vertices: THREE.Vector3[],
+  normal: THREE.Vector3,
+  isNegative = false
+): THREE.BufferGeometry {
   const faces: THREE.Triangle[] = [];
   if (isNegative) {
     normal = normal.clone();
@@ -297,7 +342,9 @@ function stitchVertices(vertices: THREE.Vector3[], normal: THREE.Vector3, isNega
   const center = MathUtilities.centerPoint(sortedVertices);
 
   for (let i = 0; i < sortedVertices.length; i++) {
-    faces.push(new THREE.Triangle(center, sortedVertices[i], sortedVertices[(i + 1) % sortedVertices.length]));
+    faces.push(
+      new THREE.Triangle(center, sortedVertices[i], sortedVertices[(i + 1) % sortedVertices.length])
+    );
   }
 
   const utilityGeometry = geometryFromFaces(faces);

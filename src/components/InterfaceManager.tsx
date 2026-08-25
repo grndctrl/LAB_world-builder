@@ -12,15 +12,25 @@ import {
   clustersAtOrigin,
 } from '@utilities/BlockUtilities';
 import { interfaceStore, useInterfaceStore } from '@utilities/InterfaceStore';
-import { intersectionWorldPosition, isWorldPositionWithinBounds } from '@utilities/InterfaceUtilities';
+import {
+  intersectionWorldPosition,
+  isWorldPositionWithinBounds,
+} from '@utilities/InterfaceUtilities';
 import { roundedVector3 } from '@utilities/MathUtilities';
 import { Material } from './Cluster';
 import { Html } from '@react-three/drei';
 
 const InterfaceManager = () => {
   const { intersection, setIntersection, setMaterial, isWorldInteractive } = useInterfaceStore();
-  const { blockSize, clusterRefs, groundPlaneRef, addBlock, removeBlock, addClusterWithBlock, addClusterNeedUpdate } =
-    useBlockStore();
+  const {
+    blockSize,
+    clusterRefs,
+    groundPlaneRef,
+    addBlock,
+    removeBlock,
+    addClusterWithBlock,
+    addClusterNeedUpdate,
+  } = useBlockStore();
 
   const audioAdd = useRef<HTMLAudioElement | null>(null);
   const audioRemove = useRef<HTMLAudioElement | null>(null);
@@ -46,7 +56,10 @@ const InterfaceManager = () => {
       const worldPosition = intersectionWorldPosition(intersection);
 
       // get block at worldposition
-      console.log('🚀 ~ file: InterfaceManager.tsx ~ line 42 ~ handlePointerUp ~ worldPosition', worldPosition);
+      console.log(
+        '🚀 ~ file: InterfaceManager.tsx ~ line 42 ~ handlePointerUp ~ worldPosition',
+        worldPosition
+      );
 
       if (button === 2) {
         // right click: delete block
@@ -120,7 +133,10 @@ const InterfaceManager = () => {
 
     clusterRefs.forEach((cluster) => {
       if (cluster.clusterColliderRef.current !== null) {
-        const clusterIntersections = raycaster.intersectObject(cluster.clusterColliderRef.current, false);
+        const clusterIntersections = raycaster.intersectObject(
+          cluster.clusterColliderRef.current,
+          false
+        );
 
         if (clusterIntersections.length > 0) {
           const blocks = clusterIntersections[0].object.parent?.children.find(
@@ -140,7 +156,10 @@ const InterfaceManager = () => {
     });
 
     if (closestIntersection === null && groundPlaneRef?.planeColliderRef.current) {
-      const intersections = raycaster.intersectObject(groundPlaneRef.planeColliderRef.current, true);
+      const intersections = raycaster.intersectObject(
+        groundPlaneRef.planeColliderRef.current,
+        true
+      );
       if (intersections.length > 0) {
         closestIntersection = intersections[0];
       }

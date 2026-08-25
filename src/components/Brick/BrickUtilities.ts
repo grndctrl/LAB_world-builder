@@ -23,7 +23,8 @@ function generateBrickCluster(cluster: ClusterType): THREE.BufferGeometry | null
   for (let z = 0; z < blocksPerClusterAxis; z++) {
     for (let y = 0; y < blocksPerClusterAxis; y++) {
       for (let x = 0; x < blocksPerClusterAxis; x++) {
-        const index = x + y * blocksPerClusterAxis + z * blocksPerClusterAxis * blocksPerClusterAxis;
+        const index =
+          x + y * blocksPerClusterAxis + z * blocksPerClusterAxis * blocksPerClusterAxis;
 
         if (cluster.blocks[index]) {
           const localPosition = new THREE.Vector3(x, y, z);
@@ -35,9 +36,17 @@ function generateBrickCluster(cluster: ClusterType): THREE.BufferGeometry | null
           object.updateMatrix();
 
           const worldPosition = localPosition.clone().add(cluster.origin);
-          const neighbours = BlockUtilities.typeNeighboursForWorldPosition(cluster.type, worldPosition);
+          const neighbours = BlockUtilities.typeNeighboursForWorldPosition(
+            cluster.type,
+            worldPosition
+          );
 
-          let block = generateBlockSides(worldPosition, blockSize, neighbours, new THREE.Color('#9e917a'));
+          let block = generateBlockSides(
+            worldPosition,
+            blockSize,
+            neighbours,
+            new THREE.Color('#9e917a')
+          );
 
           if (block) {
             block = GeometryModifiers.smooth(block);
@@ -167,7 +176,7 @@ function generateBlockSides(
 
   // -Y axis
   if (!neighbours[6]) {
-    const geometry = new THREE.PlaneBufferGeometry(blockSize, blockSize, 4, 4);
+    const geometry = new THREE.PlaneGeometry(blockSize, blockSize, 4, 4);
     const { position } = geometry.attributes;
     const colors: number[] = [];
 
@@ -370,7 +379,11 @@ function areaForSide(side: THREE.Vector3, neighbours: boolean[], blockSize: numb
 
 function splitPercentage(position: THREE.Vector3, deviation: number, offset: number): number {
   const simplex = new SimplexNoise();
-  const random = simplex.random3(position.x + deviation, position.y + deviation, position.z + deviation);
+  const random = simplex.random3(
+    position.x + deviation,
+    position.y + deviation,
+    position.z + deviation
+  );
   return random * offset + (1 - offset) * 0.5;
 }
 
@@ -400,7 +413,8 @@ function generateBricks(
   // part A (simple)
   bsp = new BSP(currentArea);
   bsp.split(!horizontal, splitPercentage(position, repeat, 0.5));
-  currentAreaPart = simplex.random3(position.x + repeat, position.y + repeat, position.z + repeat) > 0.5;
+  currentAreaPart =
+    simplex.random3(position.x + repeat, position.y + repeat, position.z + repeat) > 0.5;
 
   let lowerZ = index * blockSize * depth;
   let highgerZ = (index + 2) * blockSize * depth;
@@ -421,7 +435,8 @@ function generateBricks(
     bsp = new BSP(nextArea);
     bsp.split(horizontal, splitPercentage(position, repeat, 0.33333));
 
-    currentAreaPart = simplex.random3(position.x + repeat, position.y + repeat, position.z + repeat) > 0.5;
+    currentAreaPart =
+      simplex.random3(position.x + repeat, position.y + repeat, position.z + repeat) > 0.5;
     currentArea = currentAreaPart ? bsp.a : bsp.b;
 
     nextArea = currentAreaPart ? bsp.b : bsp.a;
@@ -527,7 +542,7 @@ function sideFaces(area: Area, currZ: number, nextZ: number): THREE.Triangle[] {
 // ): THREE.BufferGeometry {
 //   const shape = segmentShape(size, 4);
 //   const curve = new THREE.LineCurve3(location, location.clone().add(side.clone().multiplyScalar(size * 0.25)));
-//   const geometry = new THREE.ExtrudeBufferGeometry(shape, { bevelEnabled: false, extrudePath: curve });
+//   const geometry = new THREE.ExtrudeGeometry(shape, { bevelEnabled: false, extrudePath: curve });
 
 //   const { position } = geometry.attributes;
 //   const colors: number[] = [];

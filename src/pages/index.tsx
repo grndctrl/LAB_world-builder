@@ -6,6 +6,7 @@ import { Canvas } from '@react-three/fiber';
 import Toolbar from '@src/components/Toolbar';
 import ExportButton from '@src/components/ExportButton';
 import ImportButton from '@src/components/ImportButton';
+import Lab from '@src/components/Lab';
 
 const Home: NextPage = () => {
   return (
@@ -22,13 +23,11 @@ const Home: NextPage = () => {
         </Canvas>
         <Toolbar />
 
-        <div className="fixed bottom-0 left-0 m-8 font-mono text-white">
-          LMB: Add block
-          <br />
-          RMB: Remove block
-          <br />
+        <Lab>
+          LMB: Add block,
+          RMB: Remove block,
           SCROLL: Zoom
-        </div>
+        </Lab>
       </main>
     </>
   );

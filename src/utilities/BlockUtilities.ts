@@ -210,9 +210,13 @@ function parseImportedClusters(importedClusters: string): ClustersType {
       ({
         index: parsedCluster.index,
         type: parsedCluster.type as Material,
-        origin: new THREE.Vector3(parsedCluster.origin.x, parsedCluster.origin.y, parsedCluster.origin.z),
+        origin: new THREE.Vector3(
+          parsedCluster.origin.x,
+          parsedCluster.origin.y,
+          parsedCluster.origin.z
+        ),
         blocks: parsedCluster.blocks,
-      } as ClusterType)
+      }) as ClusterType
   );
 
   const brickClusters = parsedClusters[Material.BRICK].map(
@@ -220,9 +224,13 @@ function parseImportedClusters(importedClusters: string): ClustersType {
       ({
         index: parsedCluster.index,
         type: parsedCluster.type as Material,
-        origin: new THREE.Vector3(parsedCluster.origin.x, parsedCluster.origin.y, parsedCluster.origin.z),
+        origin: new THREE.Vector3(
+          parsedCluster.origin.x,
+          parsedCluster.origin.y,
+          parsedCluster.origin.z
+        ),
         blocks: parsedCluster.blocks,
-      } as ClusterType)
+      }) as ClusterType
   );
 
   return {

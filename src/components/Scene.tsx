@@ -44,7 +44,7 @@ const Scene = () => {
     <>
       {/* <Stats /> */}
       <OrthographicCamera makeDefault position={[64, 64, 64]} near={0.1} far={512} zoom={0.25} />
-      {/* 
+      {/*
       <MapControls
         enableRotate={true}
         maxPolarAngle={Math.PI / 3}
@@ -52,19 +52,26 @@ const Scene = () => {
         maxZoom={2}
         minZoom={0.25}
       /> */}
-      <OrbitControls maxPolarAngle={Math.PI / 2.5} minPolarAngle={0} maxZoom={0.5} minZoom={0.125} />
+      <OrbitControls
+        maxPolarAngle={Math.PI / 2.5}
+        minPolarAngle={0}
+        maxZoom={0.5}
+        minZoom={0.125}
+      />
       {/* <OrbitControls maxZoom={2} minZoom={0.25} /> */}
 
+      {/* three r155+ dropped legacy lighting, which scaled these intensities by PI
+          internally. The old 0.5 values are multiplied through to match. */}
       <hemisphereLight
         position={[-2, 10, 3]}
         color={new THREE.Color('#f8a')}
         groundColor={new THREE.Color('#248')}
-        intensity={0.5}
+        intensity={0.5 * Math.PI}
       />
       <directionalLight
         ref={light}
         color={'#fed'}
-        intensity={0.5}
+        intensity={0.5 * Math.PI}
         position={[-7, 24, 8]}
         castShadow
         shadow-bias={0.001}

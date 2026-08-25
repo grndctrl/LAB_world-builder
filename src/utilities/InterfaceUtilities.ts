@@ -15,7 +15,10 @@ function intersectionWorldPosition(intersection: THREE.Intersection): THREE.Vect
     const z = Math.floor(intersection.point.z / blockSize) * blockSize + 0.5 * blockSize;
 
     worldPosition.set(x, y, z);
-  } else if (intersection.object.name === 'blockColliders' && intersection.instanceId !== undefined) {
+  } else if (
+    intersection.object.name === 'blockColliders' &&
+    intersection.instanceId !== undefined
+  ) {
     const mesh = intersection.object as THREE.InstancedMesh;
     mesh.getMatrixAt(intersection.instanceId, matrix);
     worldPosition = new THREE.Vector3().setFromMatrixPosition(matrix);

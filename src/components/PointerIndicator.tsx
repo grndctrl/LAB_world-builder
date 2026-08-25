@@ -9,7 +9,7 @@ interface PointerBlockProps {
   intersection: THREE.Intersection;
 }
 
-const PointerIndicator = ({ intersection }: PointerBlockProps): JSX.Element => {
+const PointerIndicator = ({ intersection }: PointerBlockProps) => {
   const wrapper = useRef<THREE.Group | null>(null);
   let position = new THREE.Vector3();
   const rotation = new THREE.Euler(0, 0, 0);
@@ -42,7 +42,10 @@ const PointerIndicator = ({ intersection }: PointerBlockProps): JSX.Element => {
   }
 
   if (faceNormal) {
-    position = new THREE.Vector3().addVectors(faceNormal.clone().multiplyScalar(blockSize * 0.5), origin);
+    position = new THREE.Vector3().addVectors(
+      faceNormal.clone().multiplyScalar(blockSize * 0.5),
+      origin
+    );
 
     rotation.x = faceNormal.z * Math.PI * 0.5 + (faceNormal.y < 0 ? -1 * Math.PI : 0);
     rotation.y = faceNormal.y * Math.PI * 0.5;

@@ -10,7 +10,7 @@ interface PointerBlockProps {
   intersection: THREE.Intersection;
 }
 
-const PointerBlock = ({ intersection }: PointerBlockProps): JSX.Element => {
+const PointerBlock = ({ intersection }: PointerBlockProps) => {
   const wrapper = useRef<THREE.Group | null>(null);
   const position = new THREE.Vector3();
   const blockSize = useBlockStore((state) => state.blockSize);

@@ -1,0 +1,3 @@
+# Run package.json scripts with Bun's runtime instead of Node.
+[run]
+bun = true

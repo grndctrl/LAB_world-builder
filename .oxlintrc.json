@@ -1,0 +1,21 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["react", "nextjs", "jsx-a11y", "typescript", "import", "unicorn", "oxc"],
+  "categories": {
+    "correctness": "error",
+    "perf": "warn"
+  },
+  "env": {
+    "browser": true,
+    "es2024": true
+  },
+  "ignorePatterns": [".next", "excalidraw", "public"],
+  "rules": {
+    "eslint/no-unused-vars": "warn",
+    "react-hooks/exhaustive-deps": "warn",
+    "react/immutability": "warn",
+    "react/purity": "warn",
+    "react/set-state-in-effect": "warn",
+    "jsx-a11y/media-has-caption": "warn"
+  }
+}

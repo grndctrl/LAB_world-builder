@@ -42,7 +42,12 @@ function deform(
 
     currentPosition.add(inset);
 
-    geometry.attributes.position.setXYZ(index, currentPosition.x, currentPosition.y, currentPosition.z);
+    geometry.attributes.position.setXYZ(
+      index,
+      currentPosition.x,
+      currentPosition.y,
+      currentPosition.z
+    );
   });
 
   //
@@ -79,7 +84,12 @@ function deform(
     const distortion = direction.clone().multiplyScalar(segment).multiplyScalar(noise);
     currentPosition.add(distortion);
 
-    geometry.attributes.position.setXYZ(index, currentPosition.x, currentPosition.y, currentPosition.z);
+    geometry.attributes.position.setXYZ(
+      index,
+      currentPosition.x,
+      currentPosition.y,
+      currentPosition.z
+    );
   });
 
   //
@@ -93,7 +103,9 @@ function deform(
     );
 
     const noise = simplexNoise.noise2(currentPosition.x, currentPosition.z) * 0.5 + 0.5;
-    const distortion = new THREE.Vector3(0, -1, 0).multiplyScalar(halfSegment).multiplyScalar(noise);
+    const distortion = new THREE.Vector3(0, -1, 0)
+      .multiplyScalar(halfSegment)
+      .multiplyScalar(noise);
     currentPosition.add(distortion);
 
     geometry.attributes.position.setY(index, currentPosition.y);
@@ -110,7 +122,9 @@ function deform(
     );
 
     const noise = simplexNoise.noise2(currentPosition.x, currentPosition.z) * 0.5 + 0.5;
-    const distortion = new THREE.Vector3(0, -1, 0).multiplyScalar(halfSegment).multiplyScalar(noise);
+    const distortion = new THREE.Vector3(0, -1, 0)
+      .multiplyScalar(halfSegment)
+      .multiplyScalar(noise);
     currentPosition.add(distortion);
 
     geometry.attributes.position.setY(index, currentPosition.y);
@@ -174,11 +188,20 @@ function createRockPrimitive(size: number): THREE.BufferGeometry {
   const segment = size / segments;
   const topSegment = half - segment * 0.5;
 
-  const geometry = new THREE.BoxBufferGeometry(size, size, size, segments, segments, segments) as THREE.BufferGeometry;
+  const geometry = new THREE.BoxGeometry(
+    size,
+    size,
+    size,
+    segments,
+    segments,
+    segments
+  ) as THREE.BufferGeometry;
 
-  positionIndicesAtY(geometry.attributes.position as THREE.BufferAttribute, half - segment).forEach((index) => {
-    geometry.attributes.position.setY(index, topSegment);
-  });
+  positionIndicesAtY(geometry.attributes.position as THREE.BufferAttribute, half - segment).forEach(
+    (index) => {
+      geometry.attributes.position.setY(index, topSegment);
+    }
+  );
 
   return geometry;
 }
